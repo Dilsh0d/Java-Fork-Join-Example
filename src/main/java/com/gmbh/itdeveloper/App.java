@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class App
 {
     public static final int LIMIT = 500;
-    public static AtomicInteger _MAX =new AtomicInteger(1_000_000);
+    public static AtomicInteger _MAX =new AtomicInteger(0);
     public static AtomicInteger OFFSET = new AtomicInteger(0);
     public static AnnotationConfigApplicationContext ctx;
 
@@ -25,8 +25,9 @@ public class App
         ctx.register(PersistenceConfig.class);
         ctx.refresh();
         ExtractService extractService = ctx.getBean(ExtractService.class);
-        extractService.beginProcess();
+        extractService.beginForkJoinProcess();
 
+//        extractService.beginConcurrenceProcess();
 //        extractService.sampleForEachBegin();
     }
 }

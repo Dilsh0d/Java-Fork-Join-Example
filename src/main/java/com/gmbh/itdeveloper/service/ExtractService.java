@@ -1,7 +1,9 @@
 package com.gmbh.itdeveloper.service;
 
 public interface ExtractService {
-    void beginProcess();
+    void beginForkJoinProcess();
 
     void sampleForEachBegin();
+
+    void beginConcurrenceProcess();
 }

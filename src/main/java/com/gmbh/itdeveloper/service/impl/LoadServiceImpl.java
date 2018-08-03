@@ -16,15 +16,15 @@ public class LoadServiceImpl implements LoadService {
     private AenaflightSourceDao aenaflightSourceDao;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public void readAndWriteTable(int offset, int limit) {
         long b = System.currentTimeMillis();
         List<AenaflightSourceEntity> resultList = aenaflightSourceDao.getListByPagenation(offset,limit);
         resultList.forEach(aenaflightSourceEntity -> {
            Long tt = aenaflightSourceEntity.getId();
         });
+        resultList.clear();
         long e = System.currentTimeMillis();
         System.out.println("Offset="+offset+ " Time = "+((e-b)/1000d));
-        aenaflightSourceDao.flushAndClear();
     }
 }

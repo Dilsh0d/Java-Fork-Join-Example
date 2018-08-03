@@ -3,6 +3,7 @@ package com.gmbh.itdeveloper.dao.impl;
 import com.gmbh.itdeveloper.dao.AenaflightSourceDao;
 import com.gmbh.itdeveloper.entities.AenaflightSourceEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -36,6 +37,7 @@ public class AenaflightSourceDaoImp implements AenaflightSourceDao{
     }
 
     @Override
+    @Transactional
     public void flushAndClear() {
         em.flush();
         em.clear();
