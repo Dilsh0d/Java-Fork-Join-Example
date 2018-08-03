@@ -19,7 +19,7 @@ public class AppConfig {
     @Qualifier("forkJoinPool")
     @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
     public ForkJoinPool createForkJoin(){
-        return new ForkJoinPool(Runtime.getRuntime().availableProcessors(),
+        return new ForkJoinPool(/*Runtime.getRuntime().availableProcessors()*/16,
                 ForkJoinPool.defaultForkJoinWorkerThreadFactory,
                 new Thread.UncaughtExceptionHandler() {
                     @Override
@@ -29,10 +29,10 @@ public class AppConfig {
                 }, true);
     }
 
-    @Bean("executorService")
-    @Qualifier("executorService")
-    @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-    public ExecutorService createExecutorService(){
-        return Executors.newFixedThreadPool(10);
-    }
+//    @Bean("executorService")
+//    @Qualifier("executorService")
+//    @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
+//    public ExecutorService createExecutorService(){
+//        return Executors.newFixedThreadPool(10);
+//    }
 }

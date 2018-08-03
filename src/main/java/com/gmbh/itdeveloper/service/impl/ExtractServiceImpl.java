@@ -23,8 +23,8 @@ public class ExtractServiceImpl implements ExtractService{
     @Autowired
     private ForkJoinPool forkJoinPool;
 
-    @Autowired
-    private ExecutorService executorService;
+//    @Autowired
+//    private ExecutorService executorService;
 
     @Autowired
     private LoadService loadService;
@@ -36,19 +36,17 @@ public class ExtractServiceImpl implements ExtractService{
     @Override
     public void beginForkJoinProcess() {
         long startTime = System.currentTimeMillis();
-//        Consumer<Integer> consumer1 = offset -> {
-//            loadService.readAndWriteTable(offset, App.LIMIT);
-//            aenaflightSourceDao.flushAndClear();
-//        };
         Consumer<Integer> consumer = offset -> {
             loadService.readAndWriteTable(offset, App.LIMIT);
             aenaflightSourceDao.flushAndClear();
         };
 
         do {
-            App._MAX.addAndGet(50_000);
-            forkJoinPool.invoke(new LoadAndTransformAction(App.OFFSET.get(), consumer));
-            aenaflightSourceDao.flushAndClear();
+            if(forkJoinPool.getQueuedTaskCount()==0 && forkJoinPool.getActiveThreadCount() == 0) {
+                App._MAX.addAndGet(50_000);
+                forkJoinPool.invoke(new LoadAndTransformAction(App.OFFSET.get(), consumer));
+                aenaflightSourceDao.flushAndClear();
+            }
         } while (App._MAX.get()<1_000_000);
         forkJoinPool.shutdown();
         long endTime = System.currentTimeMillis();
