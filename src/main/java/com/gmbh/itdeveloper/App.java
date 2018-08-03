@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class App
 {
-    public static final int LIMIT = 500;
+    public static final int LIMIT = 100;
     public static AtomicInteger _MAX =new AtomicInteger(0);
     public static AtomicInteger OFFSET = new AtomicInteger(0);
     public static AnnotationConfigApplicationContext ctx;
