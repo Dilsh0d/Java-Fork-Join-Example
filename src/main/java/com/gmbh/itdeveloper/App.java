@@ -25,9 +25,9 @@ public class App
         ctx.register(PersistenceConfig.class);
         ctx.refresh();
         ExtractService extractService = ctx.getBean(ExtractService.class);
-        extractService.beginForkJoinProcess();
+//        extractService.beginForkJoinProcess();
 
 //        extractService.beginConcurrenceProcess();
-//        extractService.sampleForEachBegin();
+        extractService.sampleForEachBegin();
     }
 }

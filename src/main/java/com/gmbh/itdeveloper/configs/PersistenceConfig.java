@@ -72,6 +72,7 @@ public class PersistenceConfig {
         hibernateProperties.setProperty("hibernate.jdbc.batch_size", env.getProperty("hibernate.jdbc.batch_size"));
         hibernateProperties.setProperty("hibernate.order_inserts", env.getProperty("hibernate.order_inserts"));
         hibernateProperties.setProperty("hibernate.order_updates", env.getProperty("hibernate.order_updates"));
+        hibernateProperties.setProperty("hibernate.current_session_context_class", env.getProperty("hibernate.current_session_context_class"));
         return hibernateProperties;
     }
 }

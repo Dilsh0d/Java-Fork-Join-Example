@@ -5,16 +5,10 @@ import com.gmbh.itdeveloper.dao.AenaflightSourceDao;
 import com.gmbh.itdeveloper.service.ExtractService;
 import com.gmbh.itdeveloper.service.LoadService;
 import com.gmbh.itdeveloper.tasks.LoadAndTransformAction;
-import com.gmbh.itdeveloper.tasks.LoadAndTransformRunnable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 @Service
@@ -59,7 +53,7 @@ public class ExtractServiceImpl implements ExtractService{
     @Override
     public void sampleForEachBegin() {
         long startTime = System.currentTimeMillis();
-        while (App.OFFSET.get()<App._MAX.get()){
+        while (App.OFFSET.get()<1_000_000){
             loadService.readAndWriteTable(App.OFFSET.addAndGet(App.LIMIT), App.LIMIT);
         }
         long endTime = System.currentTimeMillis();
