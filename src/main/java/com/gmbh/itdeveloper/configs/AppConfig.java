@@ -19,7 +19,7 @@ public class AppConfig {
     @Qualifier("forkJoinPool")
     @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
     public ForkJoinPool createForkJoin(){
-        return new ForkJoinPool(/*Runtime.getRuntime().availableProcessors()*/16,
+        return new ForkJoinPool(Runtime.getRuntime().availableProcessors(),
                 ForkJoinPool.defaultForkJoinWorkerThreadFactory,
                 new Thread.UncaughtExceptionHandler() {
                     @Override

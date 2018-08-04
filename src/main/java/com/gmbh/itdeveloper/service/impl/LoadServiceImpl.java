@@ -16,7 +16,6 @@ public class LoadServiceImpl implements LoadService {
     private AenaflightSourceDao aenaflightSourceDao;
 
     @Override
-    @Transactional(readOnly = true)
     public void readAndWriteTable(int offset, int limit) {
         long b = System.currentTimeMillis();
         List<AenaflightSourceEntity> resultList = aenaflightSourceDao.getListByPagenation(offset,limit);

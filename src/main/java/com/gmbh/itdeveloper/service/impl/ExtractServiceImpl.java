@@ -45,7 +45,7 @@ public class ExtractServiceImpl implements ExtractService{
             if(forkJoinPool.getQueuedTaskCount()==0 && forkJoinPool.getActiveThreadCount() == 0) {
                 App._MAX.addAndGet(50_000);
                 forkJoinPool.invoke(new LoadAndTransformAction(App.OFFSET.get(), consumer));
-                aenaflightSourceDao.flushAndClear();
+//                aenaflightSourceDao.flushAndClear();
             }
         } while (App._MAX.get()<1_000_000);
         forkJoinPool.shutdown();

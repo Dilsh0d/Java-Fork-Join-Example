@@ -32,7 +32,6 @@ public class PersistenceConfig {
         em.setPersistenceUnitName("LOCAL_PERSISTENCE");
         em.setDataSource(dataSource());
         em.setPackagesToScan("com.gmbh.itdeveloper.entities");
-
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(hibernateProperties());
