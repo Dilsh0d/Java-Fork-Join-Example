@@ -2,15 +2,16 @@ package com.gmbh.itdeveloper.dao.impl;
 
 import com.gmbh.itdeveloper.dao.AenaflightSourceDao;
 import com.gmbh.itdeveloper.entities.AenaflightSourceEntity;
-import org.hibernate.*;
+import org.hibernate.CacheMode;
 import org.hibernate.jpa.QueryHints;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.FlushModeType;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -31,13 +32,14 @@ public class AenaflightSourceDaoImp implements AenaflightSourceDao{
     }
 
     @Override
-    @Transactional(readOnly = true,propagation = Propagation.NEVER)
+//    @Transactional(readOnly = true,propagation = Propagation.NEVER)
     public List<AenaflightSourceEntity> getListByPagenation(int offset, int limit) {
         List<AenaflightSourceEntity> resultList = em.createQuery("FROM AenaflightSourceEntity ORDER BY ID")
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .setHint(QueryHints.HINT_FETCH_SIZE,500)
                 .setHint(QueryHints.HINT_CACHE_MODE,CacheMode.IGNORE)
+                .setFlushMode(FlushModeType.COMMIT)
                 .getResultList();
 //        StatelessSession session = ((Session) em.getDelegate()).getSessionFactory().openStatelessSession();
 
@@ -63,7 +65,7 @@ public class AenaflightSourceDaoImp implements AenaflightSourceDao{
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public void flushAndClear() {
         em.flush();
         em.clear();
