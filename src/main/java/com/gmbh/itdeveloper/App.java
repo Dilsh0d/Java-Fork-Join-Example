@@ -3,7 +3,6 @@ package com.gmbh.itdeveloper;
 import com.gmbh.itdeveloper.configs.AppConfig;
 import com.gmbh.itdeveloper.configs.PersistenceConfig;
 import com.gmbh.itdeveloper.service.ExtractService;
-import com.gmbh.itdeveloper.service.PartitionService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -31,8 +30,7 @@ public class App
         ctx.register(PersistenceConfig.class);
         ctx.refresh();
         ExtractService extractService = ctx.getBean(ExtractService.class);
-        PartitionService partitionService = ctx.getBean(PartitionService.class);
-//        partitionService.partitionBigTableDrop();
+//        extractService.partitionBigTableDrop();
 //        extractService.partitionBigTable();
         extractService.beginForkJoinProcess();
 //
