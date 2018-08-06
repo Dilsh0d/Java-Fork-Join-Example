@@ -62,8 +62,7 @@ public class PersistenceConfig {
         hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
         hibernateProperties.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-//        hibernateProperties.setProperty("hibernate.id.new_generator_mappings", env.getProperty("hibernate.id.new_generator_mappings"));
-        hibernateProperties.setProperty("hibernate.connection.release_mode", env.getProperty("hibernate.connection.release_mode"));
+//        hibernateProperties.setProperty("hibernate.connection.release_mode", env.getProperty("hibernate.connection.release_mode"));
         hibernateProperties.setProperty("hibernate.c3p0.min_size", env.getProperty("hibernate.c3p0.min_size"));
         hibernateProperties.setProperty("hibernate.c3p0.max_size", env.getProperty("hibernate.c3p0.max_size"));
         hibernateProperties.setProperty("hibernate.c3p0.acquire_increment", env.getProperty("hibernate.c3p0.acquire_increment"));
@@ -72,7 +71,9 @@ public class PersistenceConfig {
         hibernateProperties.setProperty("hibernate.jdbc.batch_size", env.getProperty("hibernate.jdbc.batch_size"));
         hibernateProperties.setProperty("hibernate.order_inserts", env.getProperty("hibernate.order_inserts"));
         hibernateProperties.setProperty("hibernate.order_updates", env.getProperty("hibernate.order_updates"));
-        hibernateProperties.setProperty("hibernate.current_session_context_class", env.getProperty("hibernate.current_session_context_class"));
+//        hibernateProperties.setProperty("hibernate.current_session_context_class", env.getProperty("hibernate.current_session_context_class"));
+        hibernateProperties.setProperty("hibernate.transaction.flush_before_completion", env.getProperty("hibernate.transaction.flush_before_completion"));
+        hibernateProperties.setProperty("hibernate.transaction.auto_close_session", env.getProperty("hibernate.transaction.auto_close_session"));
         return hibernateProperties;
     }
 }

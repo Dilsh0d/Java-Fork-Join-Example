@@ -1,10 +1,10 @@
 package com.gmbh.itdeveloper.service.impl;
 
 import com.gmbh.itdeveloper.dao.AenaflightSourceDao;
-import com.gmbh.itdeveloper.entities.AenaflightSourceEntity;
 import com.gmbh.itdeveloper.service.LoadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -16,11 +16,12 @@ public class LoadServiceImpl implements LoadService {
     private AenaflightSourceDao aenaflightSourceDao;
 
     @Override
-    public void readAndWriteTable(int offset, int limit) {
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void readAndWriteTable(int index, int offset, int limit) {
         long b = System.currentTimeMillis();
-        List<AenaflightSourceEntity> resultList = aenaflightSourceDao.getListByPagenation(offset,limit);
-        resultList.forEach(aenaflightSourceEntity -> {
-           Long tt = aenaflightSourceEntity.getId();
+        List<String> resultList = aenaflightSourceDao.getListStringByPagenation(index,offset,limit);
+        resultList.forEach(row -> {
+           String tt = row;
         });
         resultList.clear();
         long e = System.currentTimeMillis();

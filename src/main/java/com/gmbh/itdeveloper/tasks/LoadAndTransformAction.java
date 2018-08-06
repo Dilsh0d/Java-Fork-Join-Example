@@ -9,35 +9,36 @@ import java.util.function.Consumer;
 
 public class LoadAndTransformAction extends RecursiveAction {
 
+    private int index;
     private int offset;
-    private Consumer<Integer> consumer;
+    private Consumer<Integer[]> consumer;
 
-    public LoadAndTransformAction(int offset,Consumer<Integer> consumer) {
+    public LoadAndTransformAction(int index, int offset, Consumer<Integer[]> consumer) {
+        this.offset = index;
         this.offset = offset;
         this.consumer = consumer;
     }
 
     @Override
     protected void compute() {
-        consumer.accept(offset);
+        consumer.accept(new Integer[]{index,offset});
+
         App.OFFSET.addAndGet(App.LIMIT);
         if (App.OFFSET.get() < App._MAX.get()) {
             List<LoadAndTransformAction> subTasks = new ArrayList<>();
-            subTasks.add(new LoadAndTransformAction(App.OFFSET.get(), consumer));
+            subTasks.add(new LoadAndTransformAction(index++, App.OFFSET.get(), consumer));
 
             App.OFFSET.addAndGet(App.LIMIT);
             if (App.OFFSET.get() < App._MAX.get()) {
-                subTasks.add(new LoadAndTransformAction(App.OFFSET.get(), consumer));
-                invokeAll(subTasks);
+                subTasks.add(new LoadAndTransformAction(index++, App.OFFSET.get(), consumer));
             } else {
-                invokeAll(subTasks);
+                App.OFFSET.addAndGet(-App.LIMIT);
             }
-
+            invokeAll(subTasks);
+        } else {
+            App.OFFSET.addAndGet(-App.LIMIT);
         }
         System.out.println("I am shutdown! GoodBy");
-    }
-
-    public void setOffset(int offset) {
-        this.offset = offset;
+        quietlyComplete();
     }
 }

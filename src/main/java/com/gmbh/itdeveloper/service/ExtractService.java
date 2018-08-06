@@ -6,4 +6,6 @@ public interface ExtractService {
     void sampleForEachBegin();
 
     void beginConcurrenceProcess();
+
+    void partitionBigTable();
 }
