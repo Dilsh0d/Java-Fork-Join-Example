@@ -2,6 +2,7 @@ package com.gmbh.itdeveloper.service.impl;
 
 import com.gmbh.itdeveloper.App;
 import com.gmbh.itdeveloper.service.ExtractService;
+import com.gmbh.itdeveloper.service.PartitionService;
 import com.gmbh.itdeveloper.service.TransientService;
 import com.gmbh.itdeveloper.tasks.LoadAndTransformAction;
 import com.gmbh.itdeveloper.tasks.PartitionCallable;
@@ -27,6 +28,9 @@ public class ExtractServiceImpl implements ExtractService{
 
     @Autowired
     private TransientService transientService;
+
+    @Autowired
+    private PartitionService partitionService;
 
 
     @Override
@@ -54,32 +58,6 @@ public class ExtractServiceImpl implements ExtractService{
     }
 
     @Override
-    public void sampleForEachBegin() {
-        long startTime = System.currentTimeMillis();
-        while (App.OFFSET.get()<1_000_000){
-//            loadService.readAndWriteTable(index, App.OFFSET.addAndGet(App.LIMIT), App.LIMIT);
-        }
-        long endTime = System.currentTimeMillis();
-        System.out.println("Simple ForEach " + (endTime - startTime) +
-                " milliseconds.");
-    }
-
-    @Override
-    public void beginConcurrenceProcess() {
-        long startTime = System.currentTimeMillis();
-        Consumer<Integer> consumer = offset -> {
-//            loadService.readAndWriteTable(index, offset, App.LIMIT);
-        };
-        while (App.OFFSET.get()<App._MAX.get()){
-//            executorService.execute(new LoadAndTransformRunnable(App.OFFSET.get(),consumer));
-            App.OFFSET.addAndGet(App.LIMIT);
-        }
-        long endTime = System.currentTimeMillis();
-        System.out.println("ExecutorService " + (endTime - startTime) +
-                " milliseconds.");
-    }
-
-    @Override
     public void partitionBigTable() {
         System.out.println("BEGIN CREATE PARTITION TABLES");
 
@@ -104,5 +82,10 @@ public class ExtractServiceImpl implements ExtractService{
         }
         System.gc();
         System.out.println("END CREATE PARTITION TABLES");
+    }
+
+    @Override
+    public void partitionBigTableDrop() {
+        partitionService.partitionBigTableDrop();
     }
 }
