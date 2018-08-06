@@ -1,6 +1,6 @@
 package com.gmbh.itdeveloper.service.impl;
 
-import com.gmbh.itdeveloper.dao.AenaflightSourceDao;
+import com.gmbh.itdeveloper.dao.AenaflightSource2017Dao;
 import com.gmbh.itdeveloper.service.LoadService;
 import com.gmbh.itdeveloper.service.PartitionService;
 import com.gmbh.itdeveloper.service.TransientService;
@@ -19,7 +19,7 @@ public class TransientServiceImpl implements TransientService {
     private PartitionService partitionService;
 
     @Autowired
-    private AenaflightSourceDao aenaflightSourceDao;
+    private AenaflightSource2017Dao aenaflightSourceDao;
 
     @Override
     @Transactional(propagation =  Propagation.NEVER)

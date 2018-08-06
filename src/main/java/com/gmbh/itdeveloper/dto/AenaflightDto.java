@@ -3,8 +3,9 @@ package com.gmbh.itdeveloper.dto;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
+import java.math.BigInteger;
 
-public class SourceDto {
+public class AenaflightDto {
     private String act_arr_date_time_lt; // actual arrival timestamp
     private String aircraft_name_scheduled; // scheduled aircraft name
     private String arr_apt_name_es; // Arrival airport name in Spanish
@@ -34,7 +35,7 @@ public class SourceDto {
     private String act_dep_date_time_lt; // actual departure timestamp
     private String schd_dep_only_date_lt; // scheduled departure date
     private String schd_dep_only_time_lt; // scheduled departure time
-    private Long created_at; // unix timestamp when record was created
+    private BigInteger created_at; // unix timestamp when record was created
 
 
     public String getAct_arr_date_time_lt() {
@@ -269,11 +270,11 @@ public class SourceDto {
         this.schd_dep_only_time_lt = schd_dep_only_time_lt;
     }
 
-    public Long getCreated_at() {
+    public BigInteger getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Long created_at) {
+    public void setCreated_at(BigInteger created_at) {
         this.created_at = created_at;
     }
 }

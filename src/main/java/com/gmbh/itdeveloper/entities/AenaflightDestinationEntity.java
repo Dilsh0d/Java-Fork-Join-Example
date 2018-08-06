@@ -12,7 +12,7 @@ import java.util.Date;
 public class AenaflightDestinationEntity implements java.io.Serializable {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id",columnDefinition = "bigserial",nullable = false)
     private Long id;
 

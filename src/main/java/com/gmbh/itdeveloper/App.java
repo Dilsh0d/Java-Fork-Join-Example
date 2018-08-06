@@ -30,7 +30,7 @@ public class App
         ctx.register(PersistenceConfig.class);
         ctx.refresh();
         ExtractService extractService = ctx.getBean(ExtractService.class);
-//        extractService.partitionBigTableDrop();
+        extractService.partitionBigTableDrop();
 //        extractService.partitionBigTable();
         extractService.beginForkJoinProcess();
 //

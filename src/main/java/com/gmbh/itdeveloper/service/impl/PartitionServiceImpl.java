@@ -1,7 +1,7 @@
 package com.gmbh.itdeveloper.service.impl;
 
 import com.gmbh.itdeveloper.App;
-import com.gmbh.itdeveloper.dao.AenaflightSourceDao;
+import com.gmbh.itdeveloper.dao.AenaflightSource2017Dao;
 import com.gmbh.itdeveloper.service.PartitionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PartitionServiceImpl implements PartitionService {
 
     @Autowired
-    private AenaflightSourceDao aenaflightSourceDao;
+    private AenaflightSource2017Dao aenaflightSourceDao;
 
 
     @Override

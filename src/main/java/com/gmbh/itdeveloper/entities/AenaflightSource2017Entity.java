@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "aenaflight_2017_01")
-public class AenaflightSourceEntity implements java.io.Serializable {
+public class AenaflightSource2017Entity implements java.io.Serializable {
 
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
