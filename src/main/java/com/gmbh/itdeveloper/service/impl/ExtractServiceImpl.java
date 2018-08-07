@@ -45,14 +45,13 @@ public class ExtractServiceImpl implements ExtractService{
     public void beginForkJoinProcess() {
         long startTime = System.currentTimeMillis();
 
-        Consumer<Integer[]> consumer = params -> {
-            transientService.readAndWriteTable(params[0],params[1], App.LIMIT);
+        Consumer<Integer> consumer = offset -> {
+            transientService.readAndWriteTable(offset, App.LIMIT);
         };
-        int index = 0;
         do {
             if(forkJoinPool.getQueuedTaskCount()==0 && forkJoinPool.getActiveThreadCount() == 0) {
                 App._MAX.addAndGet(1_00_000);
-                forkJoinPool.invoke(new LoadAndTransformAction(index++,App.OFFSET.get(),consumer));
+                forkJoinPool.invoke(new LoadAndTransformAction(App.OFFSET.get(),consumer));
                 System.gc();
             }
         } while (App._MAX.get()<=App.BIG_TABLE_MAX_COUNT);

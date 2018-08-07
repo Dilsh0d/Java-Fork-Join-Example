@@ -37,7 +37,7 @@ public class LoadServiceImpl implements LoadService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void readAndWriteTable(int index, int offset, int limit) {
+    public void readAndWriteTable(int offset, int limit) {
         long b = System.currentTimeMillis();
 
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");

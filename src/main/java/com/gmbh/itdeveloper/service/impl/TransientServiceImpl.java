@@ -33,8 +33,8 @@ public class TransientServiceImpl implements TransientService {
 
     @Override
     @Transactional(propagation =  Propagation.NEVER)
-    public void readAndWriteTable(int index, int offset, int limit) {
-        loadService.readAndWriteTable(index,offset,limit);
+    public void readAndWriteTable(int offset, int limit) {
+        loadService.readAndWriteTable(offset,limit);
         aenaflightSourceDao.flushAndClear();
     }
 
