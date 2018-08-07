@@ -46,7 +46,11 @@ public class ExtractServiceImpl implements ExtractService{
         long startTime = System.currentTimeMillis();
 
         Consumer<Integer> consumer = offset -> {
-            transientService.readAndWriteTable(offset, App.LIMIT);
+            try {
+                transientService.readAndWriteTable(offset, App.LIMIT);
+            } catch (Exception e){
+                // error
+            }
         };
         do {
             if(forkJoinPool.getQueuedTaskCount()==0 && forkJoinPool.getActiveThreadCount() == 0) {

@@ -18,7 +18,7 @@ public class App
 //    public static AtomicInteger PARTITION_INDEX = new AtomicInteger(0);
 //    public static AtomicInteger PARTITION_OFFSET = new AtomicInteger(0);
 //    public static int PARTITION_LIMIT = 100_000;
-    public static int BIG_TABLE_MAX_COUNT = 9_760_785; // 9809070
+    public static int BIG_TABLE_MAX_COUNT = 9_760_785; // 9_725_785
 
     public static final int LIMIT = 500;
     public static AtomicInteger _MAX =new AtomicInteger(0);
