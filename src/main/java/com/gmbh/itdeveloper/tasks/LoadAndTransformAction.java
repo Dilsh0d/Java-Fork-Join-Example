@@ -24,12 +24,12 @@ public class LoadAndTransformAction extends RecursiveAction {
         consumer.accept(new Integer[]{index,offset});
 
         App.OFFSET.addAndGet(App.LIMIT);
-        if (App.OFFSET.get() < App._MAX.get()) {
+        if (App.OFFSET.get() < App._MAX.get() && App.OFFSET.get() < App.BIG_TABLE_MAX_COUNT) {
             List<LoadAndTransformAction> subTasks = new ArrayList<>();
             subTasks.add(new LoadAndTransformAction(index++, App.OFFSET.get(), consumer));
 
-            App.OFFSET.addAndGet(App.LIMIT);
-            if (App.OFFSET.get() < App._MAX.get()) {
+            App.OFFSET.addAndGet(App.LIMIT );
+            if (App.OFFSET.get() < App._MAX.get()&& App.OFFSET.get() < App.BIG_TABLE_MAX_COUNT) {
                 subTasks.add(new LoadAndTransformAction(index++, App.OFFSET.get(), consumer));
             } else {
                 App.OFFSET.addAndGet(-App.LIMIT);
