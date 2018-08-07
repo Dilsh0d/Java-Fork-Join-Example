@@ -49,7 +49,7 @@ public class App
             }
             extractService.beginForkJoinProcess();
         } else {
-            System.out.println("All loaded and tranformed!!!");
+            System.out.println("All data tranformed!!!");
         }
     }
 }
