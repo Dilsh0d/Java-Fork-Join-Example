@@ -15,7 +15,7 @@ public class AenaflightDestinationDaoImp implements AenaflightDestinationDao{
     private EntityManager em;
 
     @Override
-    public void batchUpdates(List<AenaflightDestinationEntity> insertedResult) {
+    public void batchInserts(List<AenaflightDestinationEntity> insertedResult) {
        for(AenaflightDestinationEntity entity:insertedResult) {
            em.merge(entity);
        }

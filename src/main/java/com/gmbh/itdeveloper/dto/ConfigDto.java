@@ -1,10 +1,12 @@
 package com.gmbh.itdeveloper.dto;
 
+import com.gmbh.itdeveloper.entities.StatusEnum;
+
 import javax.persistence.Basic;
 
 public class ConfigDto {
     private Boolean isCreatedNewColumn = Boolean.FALSE;
-    private String status;//InProgress, DONE
+    private StatusEnum status = StatusEnum.INPROGRESS;
 
     public Boolean getCreatedNewColumn() {
         return isCreatedNewColumn;
@@ -14,11 +16,11 @@ public class ConfigDto {
         isCreatedNewColumn = createdNewColumn;
     }
 
-    public String getStatus() {
+    public StatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusEnum status) {
         this.status = status;
     }
 }

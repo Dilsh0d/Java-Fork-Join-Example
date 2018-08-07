@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
 public class GlobalConfigDaoImp implements GlobalConfigDao {
@@ -27,8 +28,12 @@ public class GlobalConfigDaoImp implements GlobalConfigDao {
 
     @Override
     public GlobalConfigEntity getConfigEntity() {
-        return em.createQuery("from AenaflightConfigEntity",GlobalConfigEntity.class)
+        List<GlobalConfigEntity> resultList =em.createQuery("from GlobalConfigEntity",GlobalConfigEntity.class)
                 .setMaxResults(1)
-                .getSingleResult();
+                .getResultList();
+        if(resultList.isEmpty()){
+            return null;
+        }
+        return resultList.get(0);
     }
 }

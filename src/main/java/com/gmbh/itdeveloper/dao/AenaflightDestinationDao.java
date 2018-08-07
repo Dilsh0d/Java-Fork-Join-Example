@@ -5,5 +5,5 @@ import com.gmbh.itdeveloper.entities.AenaflightDestinationEntity;
 import java.util.List;
 
 public interface AenaflightDestinationDao {
-    void batchUpdates(List<AenaflightDestinationEntity> insertedResult);
+    void batchInserts(List<AenaflightDestinationEntity> insertedResult);
 }

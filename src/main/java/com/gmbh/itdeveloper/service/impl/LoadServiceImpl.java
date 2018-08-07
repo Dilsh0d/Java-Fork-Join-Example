@@ -1,7 +1,9 @@
 package com.gmbh.itdeveloper.service.impl;
 
+import com.gmbh.itdeveloper.App;
 import com.gmbh.itdeveloper.dao.AenaflightDestinationDao;
 import com.gmbh.itdeveloper.dao.AenaflightSource2017Dao;
+import com.gmbh.itdeveloper.dao.PositionConfigDao;
 import com.gmbh.itdeveloper.entities.AenaflightDestinationEntity;
 import com.gmbh.itdeveloper.entities.AenaflightSource2017Entity;
 import com.gmbh.itdeveloper.service.LoadService;
@@ -29,6 +31,9 @@ public class LoadServiceImpl implements LoadService {
 
     @Autowired
     private AenaflightDestinationDao aenaflightDestinationDao;
+
+    @Autowired
+    private PositionConfigDao positionConfigDao;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -115,7 +120,9 @@ public class LoadServiceImpl implements LoadService {
         List<AenaflightDestinationEntity>  insertedResult = resultList.stream()
                 .map(entityFillFunction).collect(Collectors.<AenaflightDestinationEntity>toList());
 
-        aenaflightDestinationDao.batchUpdates(insertedResult);
+        aenaflightDestinationDao.batchInserts(insertedResult);
+
+        positionConfigDao.insertOffset((offset+App.LIMIT)/ App.LIMIT);
 
         long e = System.currentTimeMillis();
         System.out.println("Offset="+offset+ " Time = "+((e-b)/1000d));

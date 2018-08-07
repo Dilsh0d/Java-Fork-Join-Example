@@ -1,10 +1,11 @@
 package com.gmbh.itdeveloper.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "aenaflight_config")
-public class GlobalConfigEntity {
+@Table(name = "global_config")
+public class GlobalConfigEntity implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
