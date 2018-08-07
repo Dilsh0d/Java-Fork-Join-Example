@@ -11,9 +11,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -32,7 +35,7 @@ public class LoadServiceImpl implements LoadService {
     public void readAndWriteTable(int index, int offset, int limit) {
         long b = System.currentTimeMillis();
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Function<String, Date> dateFunction = new Function<String, Date>() {
             @Override
             public Date apply(String dateString) {
@@ -40,7 +43,10 @@ public class LoadServiceImpl implements LoadService {
                     return null;
                 } else {
                     try {
-                        return formatter.parse(dateString);
+                        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+                        gregorianCalendar.setTime(formatter.parse(dateString));
+                        gregorianCalendar.add(GregorianCalendar.YEAR,2000);
+                        return  gregorianCalendar.getTime();
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -98,7 +104,8 @@ public class LoadServiceImpl implements LoadService {
                 aenaflightDestinationEntity.setLounge_info(aenaflight2017Source.getLounge_info()); // lounge information
                 aenaflightDestinationEntity.setSource_data(aenaflight2017Source.getSource_data()); // source of data
                 if(aenaflight2017Source.getCreated_at()!=null) {
-                    aenaflightDestinationEntity.setCreated_at(new Date(aenaflight2017Source.getCreated_at().longValue())); // record creation timestamp
+                    Timestamp stamp = new Timestamp(aenaflight2017Source.getCreated_at().longValue());
+                    aenaflightDestinationEntity.setCreated_at(new Date(stamp.getTime())); // record creation timestamp
                 }
                 return aenaflightDestinationEntity;
             }
