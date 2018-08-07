@@ -1,8 +1,8 @@
 package com.gmbh.itdeveloper.dao;
 
-import com.gmbh.itdeveloper.dto.AenaflightDto;
 import com.gmbh.itdeveloper.entities.AenaflightSource2017Entity;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface AenaflightSource2017Dao {
@@ -13,11 +13,15 @@ public interface AenaflightSource2017Dao {
 
     void flushAndClear();
 
-    List<AenaflightDto> getListStringByPagenation(int index, int offset, int limit);
+//    List<AenaflightDto> getListStringByPagenation(int index, int offset, int limit);
+//
+//    void partitionBigTable(int index, int offset, int limit);
+//
+//    void dropPartitionTables(int index);
+//
+//    void createPartitionFunc();
 
-    void partitionBigTable(int index, int offset, int limit);
+    void addNewColumn();
 
-    void dropPartitionTables(int index);
-
-    void createPartitionFunc();
+    void vacuumTable() throws SQLException;
 }

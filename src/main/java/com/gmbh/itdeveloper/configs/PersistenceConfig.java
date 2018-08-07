@@ -29,7 +29,7 @@ public class PersistenceConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
-        em.setPersistenceUnitName("LOCAL_PERSISTENCE");
+//        em.setPersistenceUnitName("LOCAL_PERSISTENCE");
         em.setDataSource(dataSource());
         em.setPackagesToScan("com.gmbh.itdeveloper.entities");
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();

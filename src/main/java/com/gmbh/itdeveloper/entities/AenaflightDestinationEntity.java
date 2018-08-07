@@ -1,8 +1,6 @@
 package com.gmbh.itdeveloper.entities;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
-import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
 import java.util.Date;

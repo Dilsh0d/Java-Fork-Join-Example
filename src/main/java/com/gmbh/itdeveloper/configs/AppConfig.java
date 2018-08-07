@@ -29,10 +29,10 @@ public class AppConfig {
                 }, true);
     }
 
-    @Bean("cexecutorService")
-    @Qualifier("cexecutorService")
-    @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-    public ExecutorService createExecutorService(){
-        return Executors.newFixedThreadPool(10);
-    }
+//    @Bean("cexecutorService")
+//    @Qualifier("cexecutorService")
+//    @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
+//    public ExecutorService createExecutorService(){
+//        return Executors.newFixedThreadPool(10);
+//    }
 }
