@@ -2,7 +2,6 @@ package com.gmbh.itdeveloper.service.impl;
 
 import com.gmbh.itdeveloper.dao.AenaflightDestinationDao;
 import com.gmbh.itdeveloper.dao.AenaflightSource2017Dao;
-import com.gmbh.itdeveloper.dto.AenaflightDto;
 import com.gmbh.itdeveloper.entities.AenaflightDestinationEntity;
 import com.gmbh.itdeveloper.entities.AenaflightSource2017Entity;
 import com.gmbh.itdeveloper.service.LoadService;
@@ -14,12 +13,9 @@ import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
