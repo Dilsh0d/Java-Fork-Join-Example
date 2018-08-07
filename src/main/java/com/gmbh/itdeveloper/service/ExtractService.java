@@ -1,5 +1,7 @@
 package com.gmbh.itdeveloper.service;
 
+import com.gmbh.itdeveloper.dto.ConfigDto;
+
 public interface ExtractService {
     void beginForkJoinProcess();
 
@@ -10,4 +12,6 @@ public interface ExtractService {
     void addNewColumnAndIndexing();
 
     void vacuumBigTable();
+
+    ConfigDto getAenaflightConfig();
 }

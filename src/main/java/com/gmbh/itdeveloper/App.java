@@ -2,6 +2,8 @@ package com.gmbh.itdeveloper;
 
 import com.gmbh.itdeveloper.configs.AppConfig;
 import com.gmbh.itdeveloper.configs.PersistenceConfig;
+import com.gmbh.itdeveloper.dto.ConfigDto;
+import com.gmbh.itdeveloper.entities.StatusEnum;
 import com.gmbh.itdeveloper.service.ExtractService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -30,16 +32,24 @@ public class App
         ctx.register(PersistenceConfig.class);
         ctx.refresh();
         ExtractService extractService = ctx.getBean(ExtractService.class);
-        try {
-            extractService.addNewColumnAndIndexing();
-        } catch (Exception e) {
-            // already exist offset_id in big table
+
+        ConfigDto configDto = extractService.getAenaflightConfig();
+        if(configDto.getStatus().equals(StatusEnum.INPROGRESS)) {
+            if(!configDto.getCreatedNewColumn()) {
+                try {
+                    extractService.addNewColumnAndIndexing();
+                } catch (Exception e) {
+                    // already exist offset_id in big table
+                }
+            }
+            try {
+                extractService.vacuumBigTable();
+            } catch (Exception e) {
+                // ohter exception
+            }
+            extractService.beginForkJoinProcess();
+        } else {
+            System.out.println("All loaded and tranformed!!!");
         }
-        try {
-            extractService.vacuumBigTable();
-        } catch (Exception e) {
-            // ohter exception
-        }
-        extractService.beginForkJoinProcess();
     }
 }

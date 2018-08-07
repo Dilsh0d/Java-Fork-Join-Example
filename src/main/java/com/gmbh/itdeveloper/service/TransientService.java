@@ -5,5 +5,7 @@ public interface TransientService {
 
     void readAndWriteTable(int index, int offset, int limit);
 
+    void updateGlobalConfig();
+
 //    void createPartitionFunc();
 }

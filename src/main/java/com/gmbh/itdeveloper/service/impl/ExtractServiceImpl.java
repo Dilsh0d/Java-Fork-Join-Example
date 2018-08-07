@@ -1,10 +1,15 @@
 package com.gmbh.itdeveloper.service.impl;
 
 import com.gmbh.itdeveloper.App;
+import com.gmbh.itdeveloper.dao.GlobalConfigDao;
 import com.gmbh.itdeveloper.dao.AenaflightSource2017Dao;
+import com.gmbh.itdeveloper.dto.ConfigDto;
+import com.gmbh.itdeveloper.entities.GlobalConfigEntity;
+import com.gmbh.itdeveloper.entities.StatusEnum;
 import com.gmbh.itdeveloper.service.ExtractService;
 import com.gmbh.itdeveloper.service.TransientService;
 import com.gmbh.itdeveloper.tasks.LoadAndTransformAction;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -30,6 +35,9 @@ public class ExtractServiceImpl implements ExtractService{
 //    private PartitionService partitionService;
 
     @Autowired
+    private GlobalConfigDao aenaflightConfigDao;
+
+    @Autowired
     private AenaflightSource2017Dao aenaflightSource2017Dao;
 
 
@@ -50,7 +58,7 @@ public class ExtractServiceImpl implements ExtractService{
         } while (App._MAX.get()<=App.BIG_TABLE_MAX_COUNT);
         forkJoinPool.shutdown();
         long endTime = System.currentTimeMillis();
-
+        transientService.updateGlobalConfig();
         System.out.println("Fork/Join " + (endTime - startTime) +
                 " milliseconds.");
 
@@ -92,9 +100,10 @@ public class ExtractServiceImpl implements ExtractService{
     @Transactional(propagation = Propagation.REQUIRED)
     public void addNewColumnAndIndexing() {
         System.out.println("Begin process add new ordered column with type bigserial");
-        System.out.println("Please wait going process");
+        System.out.println("Please wait going process add new ordered column");
         try {
             aenaflightSource2017Dao.addNewColumn();
+            aenaflightConfigDao.changeConfigFile(StatusEnum.INPROGRESS);
         } catch (Exception e) {
             // already exist error
         }
@@ -110,5 +119,16 @@ public class ExtractServiceImpl implements ExtractService{
             e.printStackTrace();
         }
         System.out.println("End process VACUUM");
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public ConfigDto getAenaflightConfig() {
+        ConfigDto configDto = new ConfigDto();
+        GlobalConfigEntity aenaflightConfigEntity = aenaflightConfigDao.getConfigEntity();
+        if(aenaflightConfigEntity!=null) {
+            BeanUtils.copyProperties(aenaflightConfigEntity, configDto);
+        }
+        return configDto;
     }
 }

@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "aenaflight_config")
-public class AenaflightConfigEntity {
+public class GlobalConfigEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,7 +14,8 @@ public class AenaflightConfigEntity {
     private Boolean isCreatedNewColumn = Boolean.FALSE;
 
     @Basic
-    private String status;//IN_PROGRESS, DONE
+    @Enumerated(EnumType.STRING)
+    private StatusEnum status;//IN_PROGRESS, DONE
 
     public Long getId() {
         return id;
@@ -32,11 +33,11 @@ public class AenaflightConfigEntity {
         isCreatedNewColumn = createdNewColumn;
     }
 
-    public String getStatus() {
+    public StatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusEnum status) {
         this.status = status;
     }
 }
