@@ -49,6 +49,9 @@ public class ExtractServiceImpl implements ExtractService{
             }
         };
         App.OFFSET.set(transientService.getMaxIndexOffset()*App.LIMIT);
+        if(App.OFFSET.get()>0){
+            System.out.println("___________________________START WITH OFFSET = " +App.OFFSET.get()+"_____________________________");
+        }
         do {
             if(forkJoinPool.getQueuedTaskCount()==0 && forkJoinPool.getActiveThreadCount() == 0) {
                 App.proccesRun.set(true);
