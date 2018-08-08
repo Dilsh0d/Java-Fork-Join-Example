@@ -21,21 +21,17 @@ public class LoadAndTransformAction extends RecursiveAction {
     protected void compute() {
         consumer.accept(offset);
 
-        App.OFFSET.addAndGet(App.LIMIT);
-        if (App.OFFSET.get() < App._MAX.get() && App.OFFSET.get() < App.BIG_TABLE_MAX_COUNT) {
+        int offset = 0;
+        if ((offset = App.addOffsetAndCheckMax())>0) {
             List<LoadAndTransformAction> subTasks = new ArrayList<>();
-            subTasks.add(new LoadAndTransformAction(App.OFFSET.get(), consumer));
+            subTasks.add(new LoadAndTransformAction(offset, consumer));
 
-            App.OFFSET.addAndGet(App.LIMIT );
-            if (App.OFFSET.get() < App._MAX.get()&& App.OFFSET.get() < App.BIG_TABLE_MAX_COUNT) {
-                subTasks.add(new LoadAndTransformAction(App.OFFSET.get(), consumer));
-            } else {
-                App.OFFSET.addAndGet(-App.LIMIT);
+            if ((offset=App.addOffsetAndCheckMax())>0) {
+                subTasks.add(new LoadAndTransformAction(offset, consumer));
             }
             invokeAll(subTasks);
-        } else {
-            App.OFFSET.addAndGet(-App.LIMIT);
         }
+
         System.out.println("I am shutdown! GoodBy");
         quietlyComplete();
     }

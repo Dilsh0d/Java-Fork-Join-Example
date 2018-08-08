@@ -8,6 +8,9 @@ import com.gmbh.itdeveloper.entities.AenaflightDestinationEntity;
 import com.gmbh.itdeveloper.entities.AenaflightSource2017Entity;
 import com.gmbh.itdeveloper.service.LoadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +27,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
+//@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE,proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class LoadServiceImpl implements LoadService {
 
     @Autowired
@@ -107,6 +111,8 @@ public class LoadServiceImpl implements LoadService {
                 aenaflightDestinationEntity.setCounter(aenaflight2017Source.getCounter()); // counter information
                 aenaflightDestinationEntity.setGate_info(aenaflight2017Source.getGate_info()); // gate information
                 aenaflightDestinationEntity.setLounge_info(aenaflight2017Source.getLounge_info()); // lounge information
+                aenaflightDestinationEntity.setTerminal_info(aenaflight2017Source.getTerminal_info());
+                aenaflightDestinationEntity.setArr_terminal_info(aenaflight2017Source.getArr_terminal_info());
                 aenaflightDestinationEntity.setSource_data(aenaflight2017Source.getSource_data()); // source of data
                 if(aenaflight2017Source.getCreated_at()!=null) {
                     Timestamp stamp = new Timestamp(aenaflight2017Source.getCreated_at().longValue());
@@ -120,9 +126,11 @@ public class LoadServiceImpl implements LoadService {
         List<AenaflightDestinationEntity>  insertedResult = resultList.stream()
                 .map(entityFillFunction).collect(Collectors.<AenaflightDestinationEntity>toList());
 
-        aenaflightDestinationDao.batchInserts(insertedResult);
+        if(!insertedResult.isEmpty()) {
+            aenaflightDestinationDao.batchInserts(insertedResult);
 
-        positionConfigDao.insertOffset((offset+App.LIMIT)/ App.LIMIT);
+            positionConfigDao.insertOffset((offset + App.LIMIT) / App.LIMIT);
+        }
 
         long e = System.currentTimeMillis();
         System.out.println("Offset="+offset+ " Time = "+((e-b)/1000d));

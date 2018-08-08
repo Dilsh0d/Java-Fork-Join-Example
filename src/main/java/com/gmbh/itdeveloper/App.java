@@ -7,6 +7,7 @@ import com.gmbh.itdeveloper.entities.StatusEnum;
 import com.gmbh.itdeveloper.service.ExtractService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -18,8 +19,9 @@ public class App
 //    public static AtomicInteger PARTITION_INDEX = new AtomicInteger(0);
 //    public static AtomicInteger PARTITION_OFFSET = new AtomicInteger(0);
 //    public static int PARTITION_LIMIT = 100_000;
-    public static int BIG_TABLE_MAX_COUNT = 9_760_785; // 9_725_785
+    public static int BIG_TABLE_MAX_COUNT = 9_760_785; // 9_809_285
 
+    public static AtomicBoolean proccesRun = new AtomicBoolean(false);
     public static final int LIMIT = 500;
     public static AtomicInteger _MAX =new AtomicInteger(0);
     public static AtomicInteger OFFSET = new AtomicInteger(0);
@@ -51,5 +53,16 @@ public class App
         } else {
             System.out.println("All data tranformed!!!");
         }
+    }
+
+    public static synchronized int addOffsetAndCheckMax(){
+        App.OFFSET.addAndGet(App.LIMIT);
+        if(App.proccesRun.get() && App.OFFSET.get() < App._MAX.get() && App.OFFSET.get() < App.BIG_TABLE_MAX_COUNT) {
+            return App.OFFSET.get();
+        } else {
+            App.proccesRun.set(false);
+            App.OFFSET.addAndGet(-App.LIMIT);
+        }
+        return 0;
     }
 }

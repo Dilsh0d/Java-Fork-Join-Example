@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
+//@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE,proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class AenaflightSource2017DaoImp implements AenaflightSource2017Dao {
 
     @PersistenceContext

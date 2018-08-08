@@ -1,8 +1,8 @@
 package com.gmbh.itdeveloper.service.impl;
 
 import com.gmbh.itdeveloper.App;
-import com.gmbh.itdeveloper.dao.GlobalConfigDao;
 import com.gmbh.itdeveloper.dao.AenaflightSource2017Dao;
+import com.gmbh.itdeveloper.dao.GlobalConfigDao;
 import com.gmbh.itdeveloper.dto.ConfigDto;
 import com.gmbh.itdeveloper.entities.GlobalConfigEntity;
 import com.gmbh.itdeveloper.entities.StatusEnum;
@@ -54,16 +54,17 @@ public class ExtractServiceImpl implements ExtractService{
         };
         do {
             if(forkJoinPool.getQueuedTaskCount()==0 && forkJoinPool.getActiveThreadCount() == 0) {
+                App.proccesRun.set(true);
                 App._MAX.addAndGet(1_00_000);
                 forkJoinPool.invoke(new LoadAndTransformAction(App.OFFSET.get(),consumer));
                 System.gc();
             }
         } while (App._MAX.get()<=App.BIG_TABLE_MAX_COUNT);
         forkJoinPool.shutdown();
-        long endTime = System.currentTimeMillis();
         transientService.updateGlobalConfig();
-        System.out.println("Fork/Join " + (endTime - startTime) +
-                " milliseconds.");
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("Fork/Join " + (endTime - startTime) + " milliseconds.");
 
     }
 
