@@ -14,4 +14,6 @@ public interface ExtractService {
     void vacuumBigTable();
 
     ConfigDto getAenaflightConfig();
+
+    void losingOffsetsANewIndexing();
 }

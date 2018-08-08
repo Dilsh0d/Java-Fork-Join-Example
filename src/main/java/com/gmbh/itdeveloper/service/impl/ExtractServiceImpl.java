@@ -9,6 +9,7 @@ import com.gmbh.itdeveloper.entities.StatusEnum;
 import com.gmbh.itdeveloper.service.ExtractService;
 import com.gmbh.itdeveloper.service.TransientService;
 import com.gmbh.itdeveloper.tasks.LoadAndTransformAction;
+import com.gmbh.itdeveloper.tasks.LosingOffsetCallable;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.function.Consumer;
 
@@ -25,14 +28,8 @@ public class ExtractServiceImpl implements ExtractService{
     @Autowired
     private ForkJoinPool forkJoinPool;
 
-//    @Autowired
-//    private ExecutorService cexecutorService;
-
     @Autowired
     private TransientService transientService;
-
-//    @Autowired
-//    private PartitionService partitionService;
 
     @Autowired
     private GlobalConfigDao aenaflightConfigDao;
@@ -44,7 +41,6 @@ public class ExtractServiceImpl implements ExtractService{
     @Override
     public void beginForkJoinProcess() {
         long startTime = System.currentTimeMillis();
-
         Consumer<Integer> consumer = offset -> {
             try {
                 transientService.readAndWriteTable(offset, App.LIMIT);
@@ -52,6 +48,7 @@ public class ExtractServiceImpl implements ExtractService{
                 // error
             }
         };
+        App.OFFSET.set(transientService.getMaxIndexOffset()*App.LIMIT);
         do {
             if(forkJoinPool.getQueuedTaskCount()==0 && forkJoinPool.getActiveThreadCount() == 0) {
                 App.proccesRun.set(true);
@@ -61,44 +58,22 @@ public class ExtractServiceImpl implements ExtractService{
             }
         } while (App._MAX.get()<=App.BIG_TABLE_MAX_COUNT);
         forkJoinPool.shutdown();
-        transientService.updateGlobalConfig();
+
+        List<Integer>  notIndexOffsets = transientService.getNotIndexOffsets();
+        if(notIndexOffsets.isEmpty()) {
+            transientService.updateGlobalConfig();
+            System.out.println("All offsets good indexing without error");
+        } else {
+            Integer maxIndexOffset = transientService.getMaxIndexOffset();
+            System.out.println("Current position Offset = "+maxIndexOffset+
+                    " and losing  offsets between [1 .."+maxIndexOffset+"] ="+notIndexOffsets.toString());
+        }
 
         long endTime = System.currentTimeMillis();
         System.out.println("Fork/Join " + (endTime - startTime) + " milliseconds.");
 
     }
 
-//    @Override
-//    public void partitionBigTable() {
-//        System.out.println("BEGIN CREATE PARTITION TABLES");
-//
-//        transientService.createPartitionFunc();
-//
-//        PartitionConsumer<Integer,Integer>  partitionConsumer = (index,offset)->{
-//            transientService.partitionBigTable(index,offset);
-//        };
-//
-//        List<PartitionCallable> partitionCallables = new ArrayList<>();
-//        do{
-//            partitionCallables.add(new PartitionCallable(App.PARTITION_INDEX.get(),App.PARTITION_OFFSET.get(),partitionConsumer));
-//            App.PARTITION_OFFSET.addAndGet(App.PARTITION_LIMIT);
-//            App.PARTITION_INDEX.incrementAndGet();
-//        }while (App.PARTITION_OFFSET.get() < App.BIG_TABLE_MAX_COUNT);
-//
-//        try {
-//            List<Future<Boolean>> partitionResult = cexecutorService.invokeAll(partitionCallables);
-//            cexecutorService.shutdown();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        System.gc();
-//        System.out.println("END CREATE PARTITION TABLES");
-//    }
-//
-//    @Override
-//    public void partitionBigTableDrop() {
-//        partitionService.partitionBigTableDrop();
-//    }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -134,5 +109,24 @@ public class ExtractServiceImpl implements ExtractService{
             BeanUtils.copyProperties(aenaflightConfigEntity, configDto);
         }
         return configDto;
+    }
+
+    @Override
+    public void losingOffsetsANewIndexing() {
+        Consumer<Integer> consumer = offset -> {
+            try {
+                transientService.readAndWriteTable(offset, App.LIMIT);
+            } catch (Exception e){
+                // error
+            }
+        };
+
+        List<LosingOffsetCallable> losingOffsetCallables = new ArrayList<>();
+        transientService.getNotIndexOffsets().forEach(offset ->
+                losingOffsetCallables.add(new LosingOffsetCallable(offset,consumer)));
+
+        if(!losingOffsetCallables.isEmpty()) {
+            forkJoinPool.invokeAll(losingOffsetCallables);
+        }
     }
 }
