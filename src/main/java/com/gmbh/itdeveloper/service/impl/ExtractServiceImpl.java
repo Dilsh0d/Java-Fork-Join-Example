@@ -122,11 +122,16 @@ public class ExtractServiceImpl implements ExtractService{
         };
 
         List<LosingOffsetCallable> losingOffsetCallables = new ArrayList<>();
-        transientService.getNotIndexOffsets().forEach(offset ->
-                losingOffsetCallables.add(new LosingOffsetCallable(offset,consumer)));
+
+        List<Integer> lostNotIndexOffsets = transientService.getNotIndexOffsets();
+        lostNotIndexOffsets.forEach(offset ->
+                losingOffsetCallables.add(new LosingOffsetCallable(offset*App.LIMIT,consumer)
+        ));
 
         if(!losingOffsetCallables.isEmpty()) {
+            System.out.println("Start old stoped process positions = "+lostNotIndexOffsets.toString());
             forkJoinPool.invokeAll(losingOffsetCallables);
+            System.out.println("Successly indexing old stoped process positions = "+lostNotIndexOffsets.toString());
         }
     }
 }
