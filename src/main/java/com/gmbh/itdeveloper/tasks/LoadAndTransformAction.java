@@ -33,6 +33,5 @@ public class LoadAndTransformAction extends RecursiveAction {
         }
 
         System.out.println("I am shutdown! GoodBy");
-        quietlyComplete();
     }
 }

@@ -45,21 +45,28 @@ public class ExtractServiceImpl implements ExtractService{
             try {
                 transientService.readAndWriteTable(offset, App.LIMIT);
             } catch (Exception e){
-                // error
+                e.printStackTrace();
             }
         };
-        App.OFFSET.set(transientService.getMaxIndexOffset()+App.LIMIT);
-        if(App.OFFSET.get()>0){
+        int maxOffset = transientService.getMaxIndexOffset();
+        if(maxOffset>0) {
+            App.OFFSET.set(transientService.getMaxIndexOffset() + App.LIMIT);
             System.out.println("___________________________START WITH OFFSET = " +App.OFFSET.get()+"_____________________________");
             App._MAX.set((App.OFFSET.get()/1_00_000)*1_00_000);
         }
+        boolean isFirstLoop = false;
         do {
             if(forkJoinPool.getQueuedTaskCount()==0 && forkJoinPool.getActiveThreadCount() == 0) {
                 App.proccesRun.set(true);
                 App._MAX.addAndGet(1_00_000);
+                if(isFirstLoop){
+                    App.nextStepAndCheckMax();
+                }
+                System.out.println("----------------------"+App.OFFSET.get()+"--------------------------");
                 forkJoinPool.invoke(new LoadAndTransformAction(App.OFFSET.get(),consumer));
                 System.gc();
             }
+            isFirstLoop = true;
         } while (App._MAX.get()<=App.BIG_TABLE_MAX_COUNT);
         forkJoinPool.shutdown();
 

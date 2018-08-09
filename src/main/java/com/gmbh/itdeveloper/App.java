@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class App
 {
-    public static int BIG_TABLE_MAX_COUNT = 9_760_785; // 9_809_285
+    public static int BIG_TABLE_MAX_COUNT = 9_760_785; // 9_760_785
 
     public static AtomicBoolean proccesRun = new AtomicBoolean(false);
     public static final int LIMIT = 500;
