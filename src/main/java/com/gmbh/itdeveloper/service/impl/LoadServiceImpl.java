@@ -1,6 +1,6 @@
 package com.gmbh.itdeveloper.service.impl;
 
-import com.gmbh.itdeveloper.App;
+import com.gmbh.itdeveloper.ForkJoinApp;
 import com.gmbh.itdeveloper.dao.AenaflightDestinationDao;
 import com.gmbh.itdeveloper.dao.AenaflightSource2017Dao;
 import com.gmbh.itdeveloper.dao.PositionConfigDao;
@@ -146,7 +146,7 @@ public class LoadServiceImpl implements LoadService {
         if(!insertedResult.isEmpty()) {
             aenaflightDestinationDao.batchInserts(insertedResult);
 
-            positionConfigDao.insertOffset((offset + App.LIMIT) / App.LIMIT);
+            positionConfigDao.insertOffset((offset + ForkJoinApp.LIMIT) / ForkJoinApp.LIMIT);
         }
 
         long e = System.currentTimeMillis();

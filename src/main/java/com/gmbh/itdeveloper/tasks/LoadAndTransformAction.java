@@ -1,6 +1,6 @@
 package com.gmbh.itdeveloper.tasks;
 
-import com.gmbh.itdeveloper.App;
+import com.gmbh.itdeveloper.ForkJoinApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +22,11 @@ public class LoadAndTransformAction extends RecursiveAction {
         consumer.accept(offset);
 
         int offset = 0;
-        if ((offset = App.nextStepAndCheckMax())>0) {
+        if ((offset = ForkJoinApp.nextStepAndCheckMax())>0) {
             List<LoadAndTransformAction> subTasks = new ArrayList<>();
             subTasks.add(new LoadAndTransformAction(offset, consumer));
 
-            if ((offset=App.nextStepAndCheckMax())>0) {
+            if ((offset= ForkJoinApp.nextStepAndCheckMax())>0) {
                 subTasks.add(new LoadAndTransformAction(offset, consumer));
             }
             invokeAll(subTasks);

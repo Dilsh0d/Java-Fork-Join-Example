@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Dilsh0d!
  *
  */
-public class App
+public class ForkJoinApp
 {
     public static int BIG_TABLE_MAX_COUNT = 9_760_785; // 9_760_785
 
@@ -54,12 +54,12 @@ public class App
     }
 
     public static synchronized int nextStepAndCheckMax(){
-        App.OFFSET.addAndGet(App.LIMIT);
-        if(App.proccesRun.get() && App.OFFSET.get() < App._MAX.get() && App.OFFSET.get() < App.BIG_TABLE_MAX_COUNT) {
-            return App.OFFSET.get();
+        ForkJoinApp.OFFSET.addAndGet(ForkJoinApp.LIMIT);
+        if(ForkJoinApp.proccesRun.get() && ForkJoinApp.OFFSET.get() < ForkJoinApp._MAX.get() && ForkJoinApp.OFFSET.get() < ForkJoinApp.BIG_TABLE_MAX_COUNT) {
+            return ForkJoinApp.OFFSET.get();
         } else {
-            App.proccesRun.set(false);
-            App.OFFSET.addAndGet(-App.LIMIT);
+            ForkJoinApp.proccesRun.set(false);
+            ForkJoinApp.OFFSET.addAndGet(-ForkJoinApp.LIMIT);
         }
         return 0;
     }

@@ -1,6 +1,6 @@
 package com.gmbh.itdeveloper.service.impl;
 
-import com.gmbh.itdeveloper.App;
+import com.gmbh.itdeveloper.ForkJoinApp;
 import com.gmbh.itdeveloper.dao.AenaflightSource2017Dao;
 import com.gmbh.itdeveloper.dao.GlobalConfigDao;
 import com.gmbh.itdeveloper.dto.ConfigDto;
@@ -43,31 +43,31 @@ public class ExtractServiceImpl implements ExtractService{
         long startTime = System.currentTimeMillis();
         Consumer<Integer> consumer = offset -> {
             try {
-                transientService.readAndWriteTable(offset, App.LIMIT);
+                transientService.readAndWriteTable(offset, ForkJoinApp.LIMIT);
             } catch (Exception e){
                 e.printStackTrace();
             }
         };
         int maxOffset = transientService.getMaxIndexOffset();
         if(maxOffset>0) {
-            App.OFFSET.set(transientService.getMaxIndexOffset() + App.LIMIT);
-            System.out.println("___________________________START WITH OFFSET = " +App.OFFSET.get()+"_____________________________");
-            App._MAX.set((App.OFFSET.get()/1_00_000)*1_00_000);
+            ForkJoinApp.OFFSET.set(transientService.getMaxIndexOffset() + ForkJoinApp.LIMIT);
+            System.out.println("___________________________START WITH OFFSET = " + ForkJoinApp.OFFSET.get()+"_____________________________");
+            ForkJoinApp._MAX.set((ForkJoinApp.OFFSET.get()/1_00_000)*1_00_000);
         }
         boolean isFirstLoop = false;
         do {
             if(forkJoinPool.getQueuedTaskCount()==0 && forkJoinPool.getActiveThreadCount() == 0) {
-                App.proccesRun.set(true);
-                App._MAX.addAndGet(1_00_000);
+                ForkJoinApp.proccesRun.set(true);
+                ForkJoinApp._MAX.addAndGet(1_00_000);
                 if(isFirstLoop){
-                    App.nextStepAndCheckMax();
+                    ForkJoinApp.nextStepAndCheckMax();
                 }
-                System.out.println("----------------------"+App.OFFSET.get()+"--------------------------");
-                forkJoinPool.invoke(new LoadAndTransformAction(App.OFFSET.get(),consumer));
+                System.out.println("----------------------"+ ForkJoinApp.OFFSET.get()+"--------------------------");
+                forkJoinPool.invoke(new LoadAndTransformAction(ForkJoinApp.OFFSET.get(),consumer));
                 System.gc();
             }
             isFirstLoop = true;
-        } while (App._MAX.get()<=App.BIG_TABLE_MAX_COUNT);
+        } while (ForkJoinApp._MAX.get()<= ForkJoinApp.BIG_TABLE_MAX_COUNT);
         forkJoinPool.shutdown();
 
         List<Integer>  notIndexOffsets = transientService.getNotIndexOffsets();
@@ -126,7 +126,7 @@ public class ExtractServiceImpl implements ExtractService{
     public void losingOffsetsANewIndexing() {
         Consumer<Integer> consumer = offset -> {
             try {
-                transientService.readAndWriteTable(offset, App.LIMIT);
+                transientService.readAndWriteTable(offset, ForkJoinApp.LIMIT);
             } catch (Exception e){
                 // error
             }
