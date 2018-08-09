@@ -64,6 +64,26 @@ public class LoadServiceImpl implements LoadService {
             }
         };
 
+        Function<String,String> lifoFunction = new Function<String, String>() {
+            @Override
+            public String apply(String txt) {
+                String lifo = "";
+                if(!StringUtils.isEmpty(txt)) {
+                    String[] arr = txt.split(",");
+                    for (int i = arr.length - 1; i >= 0; i--) {
+                        if ((i + 1) < arr.length) {
+                            if (!arr[i].equals(arr[i + 1])) {
+                                lifo += "," + arr[i];
+                            }
+                        } else {
+                            lifo += "," + arr[i];
+                        }
+                    }
+                }
+                return lifo.replaceFirst(",","");
+            }
+        };
+
         Function<AenaflightSource2017Entity, AenaflightDestinationEntity> entityFillFunction  = new Function<AenaflightSource2017Entity, AenaflightDestinationEntity>() {
 
             public AenaflightDestinationEntity apply(AenaflightSource2017Entity aenaflight2017Source) {
@@ -107,12 +127,12 @@ public class LoadServiceImpl implements LoadService {
                     aenaflightDestinationEntity.setFlt_leg_seq_no(Integer.parseInt(aenaflight2017Source.getFlt_leg_seq_no())); // flight leg sequence number
                 }
                 aenaflightDestinationEntity.setAircraft_name_scheduled(aenaflight2017Source.getAircraft_name_scheduled()); // scheduled aircraft name
-                aenaflightDestinationEntity.setBaggage_info(aenaflight2017Source.getBaggage_info()); // baggage information
-                aenaflightDestinationEntity.setCounter(aenaflight2017Source.getCounter()); // counter information
-                aenaflightDestinationEntity.setGate_info(aenaflight2017Source.getGate_info()); // gate information
-                aenaflightDestinationEntity.setLounge_info(aenaflight2017Source.getLounge_info()); // lounge information
-                aenaflightDestinationEntity.setTerminal_info(aenaflight2017Source.getTerminal_info());
-                aenaflightDestinationEntity.setArr_terminal_info(aenaflight2017Source.getArr_terminal_info());
+                aenaflightDestinationEntity.setBaggage_info(lifoFunction.apply(aenaflight2017Source.getBaggage_info())); // baggage information
+                aenaflightDestinationEntity.setCounter(lifoFunction.apply(aenaflight2017Source.getCounter())); // counter information
+                aenaflightDestinationEntity.setGate_info(lifoFunction.apply(aenaflight2017Source.getGate_info())); // gate information
+                aenaflightDestinationEntity.setLounge_info(lifoFunction.apply(aenaflight2017Source.getLounge_info())); // lounge information
+                aenaflightDestinationEntity.setTerminal_info(lifoFunction.apply(aenaflight2017Source.getTerminal_info()));
+                aenaflightDestinationEntity.setArr_terminal_info(lifoFunction.apply(aenaflight2017Source.getArr_terminal_info()));
                 aenaflightDestinationEntity.setSource_data(aenaflight2017Source.getSource_data()); // source of data
                 if(aenaflight2017Source.getCreated_at()!=null) {
                     Timestamp stamp = new Timestamp(aenaflight2017Source.getCreated_at().longValue());
