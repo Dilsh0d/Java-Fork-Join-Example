@@ -53,7 +53,7 @@ public class App
         }
     }
 
-    public static synchronized int addOffsetAndCheckMax(){
+    public static synchronized int nextStepAndCheckMax(){
         App.OFFSET.addAndGet(App.LIMIT);
         if(App.proccesRun.get() && App.OFFSET.get() < App._MAX.get() && App.OFFSET.get() < App.BIG_TABLE_MAX_COUNT) {
             return App.OFFSET.get();

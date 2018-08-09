@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class PositionConfigEntity implements Serializable{
 
     @Id
-    @Column(name = "pOffset",nullable = false)
+    @Column(name = "pOffset",nullable = false,unique = true)
     public Integer pOffset;
 
     public Integer getpOffset() {

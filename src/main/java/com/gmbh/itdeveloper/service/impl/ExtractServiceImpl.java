@@ -48,7 +48,7 @@ public class ExtractServiceImpl implements ExtractService{
                 // error
             }
         };
-        App.OFFSET.set(transientService.getMaxIndexOffset());
+        App.OFFSET.set(transientService.getMaxIndexOffset()+App.LIMIT);
         if(App.OFFSET.get()>0){
             System.out.println("___________________________START WITH OFFSET = " +App.OFFSET.get()+"_____________________________");
             App._MAX.set((App.OFFSET.get()/1_00_000)*1_00_000);
