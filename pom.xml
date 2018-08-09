@@ -99,7 +99,6 @@
   </dependencies>
 
   <build>
-    <finalName>fork-join.jar</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
