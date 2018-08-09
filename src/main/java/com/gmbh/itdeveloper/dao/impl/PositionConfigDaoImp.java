@@ -1,5 +1,6 @@
 package com.gmbh.itdeveloper.dao.impl;
 
+import com.gmbh.itdeveloper.App;
 import com.gmbh.itdeveloper.dao.PositionConfigDao;
 import com.gmbh.itdeveloper.entities.PositionConfigEntity;
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,7 @@ public class PositionConfigDaoImp implements PositionConfigDao{
 
     @Override
     public List<Integer> getNotIndexOffsets(){
-        return em.createNativeQuery("select my_order from generate_series(1,(select max(poffset) from position_config)) my_order " +
+        return em.createNativeQuery("select (my_order*"+ App.LIMIT+")-"+App.LIMIT+" from generate_series(1,(select max(poffset) from position_config)) my_order " +
                                         "where my_order not in (select poffset from position_config) " +
                                         "order by my_order ").getResultList();
     }
@@ -32,7 +33,7 @@ public class PositionConfigDaoImp implements PositionConfigDao{
     @Override
     public Integer getMaxIndexOffset(){
         List<Integer> maxList =
-                em.createQuery("SELECT max(pOffset) from PositionConfigEntity ",Integer.class).getResultList();
+                em.createQuery("SELECT (max(pOffset)*"+App.LIMIT+")-"+App.LIMIT+" from PositionConfigEntity ",Integer.class).getResultList();
         if(maxList.isEmpty()){
             return 0;
         }

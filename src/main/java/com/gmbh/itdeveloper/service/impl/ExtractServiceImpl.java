@@ -48,9 +48,10 @@ public class ExtractServiceImpl implements ExtractService{
                 // error
             }
         };
-        App.OFFSET.set(transientService.getMaxIndexOffset()*App.LIMIT);
+        App.OFFSET.set(transientService.getMaxIndexOffset());
         if(App.OFFSET.get()>0){
             System.out.println("___________________________START WITH OFFSET = " +App.OFFSET.get()+"_____________________________");
+            App._MAX.set((App.OFFSET.get()/1_00_000)*1_00_000);
         }
         do {
             if(forkJoinPool.getQueuedTaskCount()==0 && forkJoinPool.getActiveThreadCount() == 0) {
@@ -69,7 +70,7 @@ public class ExtractServiceImpl implements ExtractService{
         } else {
             Integer maxIndexOffset = transientService.getMaxIndexOffset();
             System.out.println("Current position Offset = "+maxIndexOffset+
-                    " and losing  offsets between [1 .."+maxIndexOffset+"] ="+notIndexOffsets.toString());
+                    " and losing  offsets between = "+notIndexOffsets.toString());
         }
 
         long endTime = System.currentTimeMillis();
@@ -81,26 +82,26 @@ public class ExtractServiceImpl implements ExtractService{
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void addNewColumnAndIndexing() {
-        System.out.println("Begin process add new ordered column with type bigserial");
-        System.out.println("Please wait going process add new ordered column");
+        System.out.println("___________Begin process add new ordered column with type bigserial___________");
+        System.out.println("___________Please wait going process add new ordered column___________________");
         try {
             aenaflightSource2017Dao.addNewColumn();
             aenaflightConfigDao.changeConfigFile(StatusEnum.INPROGRESS);
         } catch (Exception e) {
             // already exist error
         }
-        System.out.println("End process add new column");
+        System.out.println("___________End process add new column_________________________________________");
     }
 
     @Override
     public void vacuumBigTable() {
-        System.out.println("Begin process VACUUM big table");
+        System.out.println("___________Begin process VACUUM big table_____________________________________");
         try {
             aenaflightSource2017Dao.vacuumTable();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("End process VACUUM");
+        System.out.println("___________End process VACUUM_________________________________________________");
     }
 
     @Override
@@ -128,13 +129,13 @@ public class ExtractServiceImpl implements ExtractService{
 
         List<Integer> lostNotIndexOffsets = transientService.getNotIndexOffsets();
         lostNotIndexOffsets.forEach(offset ->
-                losingOffsetCallables.add(new LosingOffsetCallable(offset*App.LIMIT,consumer)
+                losingOffsetCallables.add(new LosingOffsetCallable(offset,consumer)
         ));
 
         if(!losingOffsetCallables.isEmpty()) {
-            System.out.println("Start old stoped process positions = "+lostNotIndexOffsets.toString());
+            System.out.println("+++++++++++++++++ Start old stop process positions = "+lostNotIndexOffsets.toString());
             forkJoinPool.invokeAll(losingOffsetCallables);
-            System.out.println("Successly indexing old stoped process positions = "+lostNotIndexOffsets.toString());
+            System.out.println("+++++++++++++++++ Successfully finish indexing old stop process ++++++++++++++++++++");
         }
     }
 }
