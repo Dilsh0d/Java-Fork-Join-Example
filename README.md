@@ -21,10 +21,24 @@ process from stopped location and state.Additional resources/tables for processi
 - Multithreading (Fork/Join) framework
 
 #### Let's Get Started
-* [Click this link and download backup file](http://www.dropwizard.io/1.0.2/docs/)  
-* [Create new database](#create-new-database) - Postgresql 10 open and create new **gmbh** database
-* [Restore sql file](#restore-sql-file)
+* [Click this link and download](https://drive.google.com/open?id=1yaFiD9RdBk5oFXg8UKczsVVAtkIxfwp9)- Download test data  
 * [Configuration](#configuration) - Database connection configuration on the application
-* [Run main class](#run-main-class)
- 
- 
+* [Explain application and run main class](#run-main-class)
+
+## Click this link and download
+
+1. Download test data  [click this link](https://drive.google.com/open?id=1yaFiD9RdBk5oFXg8UKczsVVAtkIxfwp9)
+2. Open Postgresql 10 and create new database with name **gibh**
+3. Extract downloaded **aena_test_data.tar.gz** file and restore recently created **gibh** database   
+```
+psql -h localhost -p 5434 -U postgres gmbh < /you_local_where_lacated_extractfile_path/aenaflight.sql
+``` 
+After restore data to **gibh** database you can see one table with name **aenaflight_2017_01**. This contains nearly 10 000 000 rows.
+
+Colons can be used to align columns.
+
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
