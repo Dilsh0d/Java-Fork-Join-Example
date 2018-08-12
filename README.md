@@ -126,5 +126,23 @@ Do not change anything else.
 
 ## Explain application and run main class
 
-InttelliJIdea run ForkJoinApp main class.
+IntelliJIdea run **ForkJoinApp** main class.
 
+**ForkJoinApp** run step by step four business logic.
+1. **aenaflight_2017_01** table add new offset_id column and indexing this is. Why did I add a new column, because this query 
+   **<i>SELECT * FROM aenaflight_2017_01 ORDER BY id OFFSET 0 LIMIT 500;</i>** is slower working 
+   than this **<i>SELECT * FROM aenaflight_2017_01 WHERE id>:offset ORDER BY id LIMIT 500;</i>**.
+   You can tell why I did not use the **ID** itself because **ID** was not a sequential order.
+
+2. Then I made a vacuum table, without that I could not read from more than 30,000 row more. 
+   Everytime after reading 300000 row give error OutOffMemory or Stackoverflow exception. 
+   For memory problem I  have did vakum table and this is action gаvе me reading speed.
+  
+3. I looked at the PositionConfigEntity table and see if it does not have any data. 
+   If there are them given for working off and started with pasic offset = **SELECT MAX (pOffset) +500 FROM position_config;**
+   This works if the read and write was successful then writes to the position_config table offset position.
+   For example, if an error occurs or if you stopped the program, then my algorithm reads from the **position_config** 
+   table all the successful **offsets** from [500, 1000, 1500, 2500, 30000, 50000, 60000, 65000] of my other algorithm 
+   from min to max produces this figure  [500, 1000, 1500, **2000**, 2500 , 3000, **3500** , **4000**, **4500**, 5000, **5500**, 6000, 6500] 
+   selects the number that does not have the first array [2000, 3500, 4000, 4500, 5500] and indexes all of these.
+   
