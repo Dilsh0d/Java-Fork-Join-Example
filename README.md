@@ -28,17 +28,17 @@ process from stopped location and state.Additional resources/tables for processi
 ## Click this link and download
 
 1. Download test data  [click this link](https://drive.google.com/open?id=1yaFiD9RdBk5oFXg8UKczsVVAtkIxfwp9)
-2. Open Postgresql 10 and create new database with name **gibh**
-3. Extract downloaded **aena_test_data.tar.gz** file and restore recently created **gibh** database   
+2. Open Postgresql 10 and create new database with name **gmbh**
+3. Extract downloaded **aena_test_data.tar.gz** file and restore recently created **gmbh** database   
 ```
 psql -h localhost -p 5434 -U postgres gmbh < /you_local_where_lacated_extractfile_path/aenaflight.sql
 ``` 
-After restore data to **gibh** database you can see one table with name **aenaflight_2017_01**. This contains nearly 10 000 000 rows.
+After restore data to **gmbh** database you can see one table with name **aenaflight_2017_01**. This contains nearly 10 000 000 rows.
 
 **aenaflight_2017_01** table.
 
 | column | type | description |
-| --------------------------|:------------------:|--------------------------------------:|
+| --------------------------|------------------|----------------------------|
 | id | bigint | primary key, unique identifier |
 | act_arr_date_time_lt | character varying(64) actual arrival timestamp |
 | aircraft_name_scheduled | text | scheduled aircraft name |
