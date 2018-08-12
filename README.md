@@ -149,7 +149,7 @@ IntelliJIdea run **ForkJoinApp** main class.
 4. For multithreading I use  ForkJoinPool. It is class inherits from ExecutorService class and ForkJoinPool working parallel do not concurrent.<br/>
    > My algorithm how it works explain with picture
    
-   ![Parallel working fork/join picture](https://www.imageupload.co.uk/image/4gXB) 
+   ![Parallel working fork/join picture](https://github.com/Dilsh0d/fork-join/blob/master/graph.png) 
    
    Picture java code<br/>
    
