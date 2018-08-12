@@ -11,3 +11,10 @@ one cleaned record which contains all information of previous records.
 3. load - load processed information into destination table.<br/>
 Application should store actual state of processing, in case of stop or death should be able to restart <br/>
 process from stopped location and state.Additional resources/tables for processing can be created.
+
+## JAVA
+### Technology
+- JAVA 8
+- Framework: Spring / Hibernate
+- Maven
+- PostgreSQL 10
