@@ -35,10 +35,17 @@ psql -h localhost -p 5434 -U postgres gmbh < /you_local_where_lacated_extractfil
 ``` 
 After restore data to **gibh** database you can see one table with name **aenaflight_2017_01**. This contains nearly 10 000 000 rows.
 
-Colons can be used to align columns.
+**aenaflight_2017_01** table.
 
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| column | type | description |
+| --------------------------|:------------------:|--------------------------------------:|
+| id | bigint | primary key, unique identifier |
+| act_arr_date_time_lt | character varying(64) actual arrival timestamp |
+| aircraft_name_scheduled | text | scheduled aircraft name |
+| arr_apt_name_es character | varying(128) | Arrival airport name in Spanish |
+| arr_apt_code_iata character | varying(8)| IATA/ICAO code of arrival airport |
+| baggage_info character | varying(128) | Baggage information of flight |
+| carrier_airline_name_en character | varying(128) | Carrier airline name English |
+| carrier_icao_code character | varying(8) | Carrier IATA/ICAO code |
+| carrier_number character varying(8) | Carrier number |
+| counter character varying(64) | Registration counter |
