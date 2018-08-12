@@ -149,7 +149,7 @@ IntelliJIdea run **ForkJoinApp** main class.
 4. For multithreading I use  ForkJoinPool. It is class inherits from ExecutorService class and ForkJoinPool working parallel do not concurrent.<br/>
    > My algorithm how it works explain with picture
    
-   ![Parallel working fork/join picture](https://ibb.co/eC05gU) 
+   ![Parallel working fork/join picture](https://www.imageupload.co.uk/image/4gXB) 
    
    Picture java code<br/>
    
@@ -285,7 +285,11 @@ IntelliJIdea run **ForkJoinApp** main class.
 * [https://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html](https://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html)
 * [http://tutorials.jenkov.com/java-util-concurrent/java-fork-and-join-forkjoinpool.html](http://tutorials.jenkov.com/java-util-concurrent/java-fork-and-join-forkjoinpool.html)
 * [http://www.javacreed.com/java-fork-join-example/](http://www.javacreed.com/java-fork-join-example/)
-* [https://dzone.com/articles/java-concurrency-fork-join-pool](https://dzone.com/articles/java-concurrency-fork-join-pool)
 * [https://dzone.com/articles/java-concurrency-fork-join-pool](https://dzone.com/articles/java-concurrency-fork-join-pool)    
+* [https://www.postgresql.org/docs/10/static/sql-vacuum.html](https://www.postgresql.org/docs/10/static/sql-vacuum.html) 
+* [https://github.com/magnusvk/counter_culture/issues/79](https://github.com/magnusvk/counter_culture/issues/79)
+* [https://stackoverflow.com/questions/26625614/select-query-with-offset-limit-is-too-much-slow](https://stackoverflow.com/questions/26625614/select-query-with-offset-limit-is-too-much-slow)
+ 
+   
    
      
