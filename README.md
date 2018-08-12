@@ -20,11 +20,12 @@ process from stopped location and state.Additional resources/tables for processi
 - Framework: Spring / Hibernate
 - Maven
 - PostgreSQL 10
+- Multithreading (Fork/Join) framework
 
 #### Let's Get Started
 * [Click this link and download backup file](http://www.dropwizard.io/1.0.2/docs/)  
-* [Create new database](create-new-database) - Postgresql 10 open and create new **gmbh** database
-* [Restore sql file](restore-sql-file)
+* [Create new database](#create-new-database) - Postgresql 10 open and create new **gmbh** database
+* [Restore sql file](#restore-sql-file)
 * [Configuration](#configuration) - Database connection configuration on the application
 * [Run main class](#run-main-class)
  
