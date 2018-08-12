@@ -32,6 +32,6 @@ public class LoadAndTransformAction extends RecursiveAction {
             invokeAll(subTasks);
         }
 
-        System.out.println("I am shutdown! GoodBy");
+        System.out.println("I am shutdown! GoodBye");
     }
 }

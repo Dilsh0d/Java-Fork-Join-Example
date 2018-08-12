@@ -151,7 +151,7 @@ IntelliJIdea run **ForkJoinApp** main class.
    
    ![Parallel working fork/join picture](https://github.com/Dilsh0d/fork-join/blob/master/graph.png) 
    
-   Picture java code<br/>
+   Picture java code **ExtractServiceImpl.beginForkJoinProcess()** method <br/>
    
    ```
    do {
@@ -169,7 +169,39 @@ IntelliJIdea run **ForkJoinApp** main class.
    } while (ForkJoinApp._MAX.get()<= ForkJoinApp.BIG_TABLE_MAX_COUNT);
    ```
    
-   Read&Write java code <br/>
+   ForkJoinPool create each step sub task class **LoadAndTransformAction** <br/>
+   ```
+   public class LoadAndTransformAction extends RecursiveAction {
+   
+       private int offset;
+       private Consumer<Integer> consumer;
+   
+       public LoadAndTransformAction(int offset, Consumer<Integer> consumer) {
+           this.offset = offset;
+           this.consumer = consumer;
+       }
+   
+       @Override
+       protected void compute() {
+           consumer.accept(offset);
+   
+           int offset = 0;
+           if ((offset = ForkJoinApp.nextStepAndCheckMax())>0) {
+               List<LoadAndTransformAction> subTasks = new ArrayList<>();
+               subTasks.add(new LoadAndTransformAction(offset, consumer));
+   
+               if ((offset= ForkJoinApp.nextStepAndCheckMax())>0) {
+                   subTasks.add(new LoadAndTransformAction(offset, consumer));
+               }
+               invokeAll(subTasks);
+           }
+   
+           System.out.println("I am shutdown! GoodBye");
+       }
+   }
+   ```
+   
+   Read&Write java code **LoadServiceImpl.readAndWriteTable(int offset, int limit)** method<br/>
    ```
    DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
    Function<String, Date> dateFunction = new Function<String, Date>() {
