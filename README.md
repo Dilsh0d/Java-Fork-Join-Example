@@ -1,5 +1,3 @@
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
-
 # Fork/join framework use select&inset from big table
 > Task Description ETL (Extract Transform Load). <br/>
 **Task consist of 3 steps.**
