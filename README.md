@@ -30,7 +30,7 @@ read/write from the database Fork/Join framework.The task was described to read 
 #### Let's Get Started
 * [Click this link and download](https://drive.google.com/open?id=1yaFiD9RdBk5oFXg8UKczsVVAtkIxfwp9)- Download test data  
 * [Configuration](#configuration) - Database connection configuration on the application
-* [Explain application and run main class](#run-main-class)
+* [Explain application and run main class](#explain-application-and-run-main-class)
 
 ## Click this link and download
 
@@ -125,3 +125,6 @@ Change to configuration locale database connection  **port**, **db name**, **use
 Do not change anything else.
 
 ## Explain application and run main class
+
+InttelliJIdea run ForkJoinApp main class.
+
