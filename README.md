@@ -12,6 +12,13 @@ one cleaned record which contains all information of previous records.
 Application should store actual state of processing, in case of stop or death should be able to restart <br/>
 process from stopped location and state.Additional resources/tables for processing can be created.
 
+```
+Task have been strictly wrote what kind technologies use and therefore I used core Java Multithreading (Fork/Join) framework.
+Otherwise, I could use Akka, Speedment, Spark or Hadoop frameworks. These frameworks would fit perfectly on the task, but I used it for parallel  
+read/write from the database Fork/Join framework.The task was described to read the first table and convert the other table to this given.
+
+```  
+
 ### JAVA
 #### Technology
 - JAVA 8
@@ -28,7 +35,7 @@ process from stopped location and state.Additional resources/tables for processi
 ## Click this link and download
 
 1. Download test data  [click this link](https://drive.google.com/open?id=1yaFiD9RdBk5oFXg8UKczsVVAtkIxfwp9)
-2. Open Postgresql 10 and create new database with name **gmbh**
+2. Open **Postgresql 10** and create new database with name **gmbh**
 3. Extract downloaded **aena_test_data.tar.gz** file and restore recently created **gmbh** database   
 ```
 psql -h localhost -p 5434 -U postgres gmbh < /you_local_where_lacated_extractfile_path/aenaflight.sql
@@ -105,3 +112,16 @@ Transform **aenaflight_source** table definition description. Hibernate entity c
 | created_at | timestamp without time zone | record creation timestamp |
 
 
+## Configuration
+Open application from IntellijIdea and open database connection configuration file **resources/persistence-pgsql.properties**
+
+```
+jdbc.url=jdbc:postgresql://localhost:5434/gmbh
+jdbc.user=postgres
+jdbc.pass=postgres
+```
+
+Change to configuration locale database connection  **port**, **db name**, **user** name and **pass**word.
+Do not change anything else.
+
+## Explain application and run main class
