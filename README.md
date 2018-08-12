@@ -138,7 +138,7 @@ IntelliJIdea run **ForkJoinApp** main class.
    Everytime after reading 300000 row give error OutOffMemory or Stackoverflow exception. 
    For memory problem I  have did vakum table and this is action gаvе me reading speed.
   
-3. I looked at the PositionConfigEntity table and see if it does not have any data. 
+3. Working with lost data. I looked at the PositionConfigEntity table and see if it does not have any data. 
    If there are them given for working off and started with pasic offset = **SELECT MAX (pOffset) +500 FROM position_config;**
    This works if the read and write was successful then writes to the position_config table offset position.
    For example, if an error occurs or if you stopped the program, then my algorithm reads from the **position_config** 
