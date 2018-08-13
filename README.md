@@ -134,7 +134,7 @@ IntelliJIdea run **ForkJoinApp** main class.
    than this **<i>SELECT * FROM aenaflight_2017_01 WHERE id>:offset ORDER BY id LIMIT 500;</i>**.
    You can tell why I did not use the **ID** itself because **ID** was not a sequential order.
 
-2. Then I made a vacuum table, without that I could not read from more than 30,000 row more. 
+2. Then I made a vacuum table, without that I could not read from more than 300000 row more. 
    Everytime after reading 300000 row give error OutOffMemory or Stackoverflow exception. 
    For memory problem I  have did vakum table and this is action gаvе me reading speed.
   
